@@ -1,0 +1,52 @@
+#starting to build the elements of the program.
+
+teams = [
+        "Arizona Cardinals",
+        "Atlanta Falcons",
+        "Baltimore Ravens",
+        "Buffalo Bills",
+        "Carolina Panthers",
+        "Chicago Bears",
+        "Cincinnati Bengals",
+        "Cleveland Browns",
+        "Dallas Cowboys",
+        "Denver Broncos",
+        "Detroit Lions",
+        "Green Bay Packers",
+        "Houston Texans",
+        "Indianapolis Colts",
+        "Jacksonville Jaguars",
+        "Kansas City Chiefs",
+        "Las Vegas Raiders",
+        "Los Angeles Chargers",
+        "Los Angeles Rams",
+        "Miami Dolphins",
+        "Minnesota Vikings",
+        "New England Patriots",
+        "New Orleans Saints",
+        "New York Giants",
+        "New York Jets",
+        "Philadelphia Eagles",
+        "Pittsburgh Steelers",
+        "San Francisco 49ers",
+        "Seattle Seahawks",
+        "Tampa Bay Buccaneers",
+        "Tennessee Titans",
+        "Washington Commanders"
+  ]
+
+#player position dictionary
+playersByPosition = {
+        "QB": ("Cameron Ward", "Shedeur Sanders", "Jalen Milroe", "Quinn Ewers", "Jaxson Dart", "Will Howard", "Dillon Gabriel", "Kyle McCord", "Riley Leonard", "Kurtis Rourke", "Garrett Green"),
+        "RB": ("Ashton Jeanty", "Omarion Hampton", "Kaleb Johnson", "Quinshon Judkins", "TreVeyon Henderson", "Cameron Skattebo", "Ollie Gordon II", "Devin Neal", "Dylan Sampson", "D.J. Giddens", "Jo'Quavious Mark"),
+        "WR": ("Tetairoa McMillan", "Luther Burden", "Emeka Egbuka", "Tre Harris", "Isaiah Bond", "Elic Ayomanor", "Matthew Golden", "Jalen Royals", "Savion Williams", "Jayden Higgins"),
+        "TE": ("Tyler Warren", "Colston Loveland", "Harold Fannin Jr", "Mason Taylor", "Gunnar Helm", "Luke Lachey", "Oronde Gadsen II", "Jake Briningstool", "Terrance Ferguson", "Mitchell Evans", "Oscar Delp"),       
+        "OT": ("Will Campbell", "Kelvin Banks", "Josh Simmons", "Aireontae Ersery", "Josh Conerly Jr", "Cameron Williams", "Wyatt Milum", "Emery Jones Jr", "Grey Zabel", Marcus Mbow", "Anthony Belton"),
+        "IOL": ("Tyler Booker", "Jonah Savaiinaea", "Armand Membour", "Donovan Jackson", "Tate Ratledge", "Dylan Fairchild", "Jake Majors", "Charles Grant", "Jared Wilson", "Seth McLaughlin", "Conor Colby"),
+
+        "DL": ("Mason Graham", "Kenneth Grant", "Shemar Stewart", "Derrick Harmon", "Walter Nolen", Tyleik Williams", "Deone Walker", "Alfred Collins", "T.J. Sanders", "Omarr Norman-Lott", "Jordan Burch"),
+        "EDGE": ("Abdul Carter", "Mykel William", "James Pearce Jr", "Nic Scourton", "Mike Green", "Landon Jackson", "Princely Umanmielen", "Jack Sawyer", "J.T. Tuimoloau", "Kyle Kennard", "Jared Ivey"),
+        "LB": ("Jalon Walker", "Jihaad Campbell", "Danny Stutsman", "Barrett Carter", "Chris Paul Jr", "Carson Schwesinger", "Lander Barton", "Jeffery Bassa", "Jay Higgins", "Smael Mondon Jr", "Jamon Dumas-Johnson"),
+        "CB": ("Travis Hunter", "Will Johnson", "Benjamin Morrison", "Shavon Revel Jr", "Jahdae Barron", "Trey Amos", "Maxwell Hariston", "Azareye'h Thomas", "Daylen Everette", "Denzel Burke", "Darien Porter"),
+        "S": ("Malaki Starks", "Nick Emmanwori", "Xavier Watts", "Andrew Mukuba", "Kevin Wilson Jr", "Lathan Ransom", "Rod Moore", "Billy Bowman", "Sebastian Castro", "Malachai Moore", "Xavier Scott")
+    }
