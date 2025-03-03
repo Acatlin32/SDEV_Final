@@ -1,52 +1,436 @@
-#starting to build the elements of the program.
+"""
 
-teams = [
-        "Arizona Cardinals",
-        "Atlanta Falcons",
-        "Baltimore Ravens",
-        "Buffalo Bills",
-        "Carolina Panthers",
-        "Chicago Bears",
-        "Cincinnati Bengals",
+Author:       Andrew Catlin
+Date written: 02/25/2025
+Assignment:   Final Project - GUI
+Short Desc:   This program will show two screens.
+              First, it will show an entry screen that
+              will display a welcome message and options.
+              The second screen will show the game.
+
+"""
+
+#import necessary tools
+import tkinter as tk
+from tkinter import messagebox
+
+
+#data structures
+
+#team lists in draft order
+teamsList = [
+        "Tennessee Titans",
         "Cleveland Browns",
-        "Dallas Cowboys",
-        "Denver Broncos",
-        "Detroit Lions",
-        "Green Bay Packers",
-        "Houston Texans",
-        "Indianapolis Colts",
-        "Jacksonville Jaguars",
-        "Kansas City Chiefs",
-        "Las Vegas Raiders",
-        "Los Angeles Chargers",
-        "Los Angeles Rams",
-        "Miami Dolphins",
-        "Minnesota Vikings",
-        "New England Patriots",
-        "New Orleans Saints",
         "New York Giants",
+        "New England Patriots",
+        "Jacksonville Jaguars",
+        "Las Vegas Raiders",
         "New York Jets",
-        "Philadelphia Eagles",
-        "Pittsburgh Steelers",
+        "Carolina Panthers",
+        "New Orleans Saints",
+        "Chicago Bears",
         "San Francisco 49ers",
+        "Dallas Cowboys",
+        "Miami Dolphins",
+        "Indianapolis Colts",
+        "Atlanta Falcons",
+        "Arizona Cardinals",
+        "Cincinnati Bengals",
         "Seattle Seahawks",
         "Tampa Bay Buccaneers",
-        "Tennessee Titans",
-        "Washington Commanders"
+        "Denver Broncos",
+        "Pittsburgh Steelers",
+        "Los Angeles Chargers",
+        "Green Bay Packers",
+        "Minnesota Vikings",
+        "Houston Texans",
+        "Los Angeles Rams",
+        "Baltimore Ravens",
+        "Detroit Lions",
+        "Washington Commanders",
+        "Buffalo Bills",        
+        "Kansas City Chiefs",
+        "Philadelphia Eagles"
   ]
 
-#player position dictionary
+
+#list of player positions used to match to dict keys.
+positionList = [
+        "  ",
+        "QB",
+        "RB",
+        "WR",
+        "TE",
+        "OT",
+        "IOL",
+        "DL",
+        "EDGE",
+        "LB",
+        "CB",
+        "S"
+    ]
+
+
+#player position dictionary postion:name
 playersByPosition = {
-        "QB": ("Cameron Ward", "Shedeur Sanders", "Jalen Milroe", "Quinn Ewers", "Jaxson Dart", "Will Howard", "Dillon Gabriel", "Kyle McCord", "Riley Leonard", "Kurtis Rourke", "Garrett Green"),
-        "RB": ("Ashton Jeanty", "Omarion Hampton", "Kaleb Johnson", "Quinshon Judkins", "TreVeyon Henderson", "Cameron Skattebo", "Ollie Gordon II", "Devin Neal", "Dylan Sampson", "D.J. Giddens", "Jo'Quavious Mark"),
-        "WR": ("Tetairoa McMillan", "Luther Burden", "Emeka Egbuka", "Tre Harris", "Isaiah Bond", "Elic Ayomanor", "Matthew Golden", "Jalen Royals", "Savion Williams", "Jayden Higgins"),
-        "TE": ("Tyler Warren", "Colston Loveland", "Harold Fannin Jr", "Mason Taylor", "Gunnar Helm", "Luke Lachey", "Oronde Gadsen II", "Jake Briningstool", "Terrance Ferguson", "Mitchell Evans", "Oscar Delp"),       
-        "OT": ("Will Campbell", "Kelvin Banks", "Josh Simmons", "Aireontae Ersery", "Josh Conerly Jr", "Cameron Williams", "Wyatt Milum", "Emery Jones Jr", "Grey Zabel", Marcus Mbow", "Anthony Belton"),
+        "QB":  ("Cameron Ward", "Shedeur Sanders", "Jalen Milroe", "Quinn Ewers", "Jaxson Dart", "Will Howard", "Dillon Gabriel", "Kyle McCord", "Riley Leonard", "Kurtis Rourke", "Garrett Green"),
+        "RB":  ("Ashton Jeanty", "Omarion Hampton", "Kaleb Johnson", "Quinshon Judkins", "TreVeyon Henderson", "Cameron Skattebo", "Ollie Gordon II", "Devin Neal", "Dylan Sampson", "D.J. Giddens", "Jo'Quavious Mark"),
+        "WR":  ("Tetairoa McMillan", "Luther Burden", "Emeka Egbuka", "Tre Harris", "Isaiah Bond", "Elic Ayomanor", "Matthew Golden", "Jalen Royals", "Savion Williams", "Jayden Higgins"),
+        "TE":  ("Tyler Warren", "Colston Loveland", "Harold Fannin Jr", "Mason Taylor", "Gunnar Helm", "Luke Lachey", "Oronde Gadsen II", "Jake Briningstool", "Terrance Ferguson", "Mitchell Evans", "Oscar Delp"),       
+        "OT":  ("Will Campbell", "Kelvin Banks", "Josh Simmons", "Aireontae Ersery", "Josh Conerly Jr", "Cameron Williams", "Wyatt Milum", "Emery Jones Jr", "Grey Zabel", "Marcus Mbow", "Anthony Belton"),
         "IOL": ("Tyler Booker", "Jonah Savaiinaea", "Armand Membour", "Donovan Jackson", "Tate Ratledge", "Dylan Fairchild", "Jake Majors", "Charles Grant", "Jared Wilson", "Seth McLaughlin", "Conor Colby"),
 
-        "DL": ("Mason Graham", "Kenneth Grant", "Shemar Stewart", "Derrick Harmon", "Walter Nolen", Tyleik Williams", "Deone Walker", "Alfred Collins", "T.J. Sanders", "Omarr Norman-Lott", "Jordan Burch"),
-        "EDGE": ("Abdul Carter", "Mykel William", "James Pearce Jr", "Nic Scourton", "Mike Green", "Landon Jackson", "Princely Umanmielen", "Jack Sawyer", "J.T. Tuimoloau", "Kyle Kennard", "Jared Ivey"),
-        "LB": ("Jalon Walker", "Jihaad Campbell", "Danny Stutsman", "Barrett Carter", "Chris Paul Jr", "Carson Schwesinger", "Lander Barton", "Jeffery Bassa", "Jay Higgins", "Smael Mondon Jr", "Jamon Dumas-Johnson"),
-        "CB": ("Travis Hunter", "Will Johnson", "Benjamin Morrison", "Shavon Revel Jr", "Jahdae Barron", "Trey Amos", "Maxwell Hariston", "Azareye'h Thomas", "Daylen Everette", "Denzel Burke", "Darien Porter"),
-        "S": ("Malaki Starks", "Nick Emmanwori", "Xavier Watts", "Andrew Mukuba", "Kevin Wilson Jr", "Lathan Ransom", "Rod Moore", "Billy Bowman", "Sebastian Castro", "Malachai Moore", "Xavier Scott")
+        "DL":  ("Mason Graham", "Kenneth Grant", "Shemar Stewart", "Derrick Harmon", "Walter Nolen", "Tyleik Williams", "Deone Walker", "Alfred Collins", "T.J. Sanders", "Omarr Norman-Lott", "Jordan Burch"),
+        "EDGE":("Abdul Carter", "Mykel William", "James Pearce Jr", "Nic Scourton", "Mike Green", "Landon Jackson", "Princely Umanmielen", "Jack Sawyer", "J.T. Tuimoloau", "Kyle Kennard", "Jared Ivey"),
+        "LB":  ("Jalon Walker", "Jihaad Campbell", "Danny Stutsman", "Barrett Carter", "Chris Paul Jr", "Carson Schwesinger", "Lander Barton", "Jeffery Bassa", "Jay Higgins", "Smael Mondon Jr", "Jamon Dumas-Johnson"),
+        "CB":  ("Travis Hunter", "Will Johnson", "Benjamin Morrison", "Shavon Revel Jr", "Jahdae Barron", "Trey Amos", "Maxwell Hariston", "Azareye'h Thomas", "Daylen Everette", "Denzel Burke", "Darien Porter"),
+        "S":   ("Malaki Starks", "Nick Emmanwori", "Xavier Watts", "Andrew Mukuba", "Kevin Wilson Jr", "Lathan Ransom", "Rod Moore", "Billy Bowman", "Sebastian Castro", "Malachai Moore", "Xavier Scott")
     }
+
+
+
+class windowSwitch(tk.Tk):
+    """this class is responsible for switching between windows.
+        It has components to display a current window and switch
+        the window2. There's no reason to go back to Window1.
+        This is generally the parent class of window 1 and 2"""
+    def __init__(self, *args, **kwargs):
+        """general constructor"""
+        tk.Tk.__init__(self, *args, **kwargs)
+        self.title("2025 NFL Draft Pick'ems")
+        
+        self.window1 = Window1(self)
+        self.window2 = Window2(self)
+        self.currentWindow = None
+        self.showWindow(self.window1)
+    
+    def showWindow(self, window):
+        """this function sets the window to be shown"""
+        if self.currentWindow:
+            self.currentWindow.pack_forget()
+        self.currentWindow = window
+        self.currentWindow.pack(fill='both', expand=True)
+    
+    def showWindow1(self):
+        """show the first window"""
+        self.showWindow(self.window1)
+    
+    def showWindow2(self):
+        """show the second window"""
+        self.showWindow(self.window2)
+
+
+
+class scroller(tk.Frame):
+    """this class places the scroll bar and scrollable-area.
+        I had difficulty with grid and pack displays,
+        so I encapsulated this and used canvas,
+        then populated all items into the canvas"""
+    def __init__(self, container, *args, **kwargs):
+        """generic constructor"""
+        super().__init__(container, *args, **kwargs)
+        """Since all elements will be populated into the scroll-able area
+        the super() method is used to allow for all subclasses to call 
+        up to Frame(). It works like a pass through"""
+        canvas = tk.Canvas(self)
+
+        #orient the position of the scroll bar.
+        scrollbar = tk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scrollable_frame = tk.Frame(canvas)
+
+        #configure scrollable area
+        self.scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        #connect the scrollable frame to the canvas
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+
+        #configure the canvas and scrollbar
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        #pack it all together
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+
+#GUI for window 1 *****************************
+
+
+class Window1(tk.Frame):
+    """this class contains the components of the initial window
+        one will see upon log-in. It offers a welcome message
+        and some options (which are currently not yet built).
+        They are just dummy radiobuttons at the moment."""
+    def __init__(self, parent):
+        """constructor calls up to the parents which will be windowSwitch()"""
+        tk.Frame.__init__(self, parent)
+        #define parent for use. Parent is windowSwitch()
+        self.parent = parent
+       
+        #make an instance of the scroller
+        self.scrollyFrame = scroller(self)
+        self.scrollyFrame.pack(side="left", fill="both", expand=True)
+
+        #variables for selections
+        #these will hold the user choices and apply them to game logic (eventually)
+        #having 3 seperate variables for the 3 categories keeps it unambiguous
+        self.selectedOption1 = tk.StringVar()
+        self.selectedOption2 = tk.StringVar()
+        self.selectedOption3 = tk.StringVar()
+
+        #labels and buttons with grid placement
+        welcomeLabel = tk.Label(
+            self.scrollyFrame.scrollable_frame, 
+            text="Welcome to the inaugural season of NFL Draft Pick 'ems!\nPlease choose your options below before you begin."
+        )
+        welcomeLabel.grid(row=0, column=0, columnspan=3, pady=4)
+    
+        #option 1: Who is playing?
+        option1Label = tk.Label(self.scrollyFrame.scrollable_frame, 
+            text="Who all is playing?")
+        option1Label.grid(row=2, column=0, columnspan=3, pady=4)
+
+        r1 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Just Me', value='1', variable=self.selectedOption1)
+        r1.grid(row=3, column=0, pady=4)
+
+        r2 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Invite the league', value='2', variable=self.selectedOption1)
+        r2.grid(row=4, column=0, pady=4)
+
+        #option 2: How many Picks?
+        option2Label = tk.Label(self.scrollyFrame.scrollable_frame, 
+            text="Number of picks?")
+        option2Label.grid(row=6, column=0, columnspan=3, pady=4)
+
+        r3 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Top 10', value='3', variable=self.selectedOption2)
+        r3.grid(row=7, column=0, pady=4)
+
+        r4 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='First Round', value='4', variable=self.selectedOption2)
+        r4.grid(row=8, column=0, pady=4)
+
+        r5 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Two rounds', value='5', variable=self.selectedOption2)
+        r5.grid(row=9, column=0, pady=4)
+
+        r6 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Three Rounds', value='6', variable=self.selectedOption2)
+        r6.grid(row=10, column=0, pady=4)
+
+        r7 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Four Rounds', value='7', variable=self.selectedOption2)
+        r7.grid(row=11, column=0, pady=4)
+
+        r8 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Five Rounds', value='8', variable=self.selectedOption2)
+        r8.grid(row=12, column=0, pady=4)
+
+        r9 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Six Rounds', value='9', variable=self.selectedOption2)
+        r9.grid(row=13, column=0, pady=4)
+
+        r10 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='The Whole Draft', value='10', variable=self.selectedOption2)
+        r10.grid(row=14, column=0, pady=4)
+
+        #option 3: What Scoring Options?
+        option3Label = tk.Label(self.scrollyFrame.scrollable_frame, 
+            text="Scoring Options:")
+        option3Label.grid(row=16, column=0, columnspan=3, pady=4)
+
+        r11 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Standard Scoring', value='11', variable=self.selectedOption3)
+        r11.grid(row=17, column=0, pady=4)
+
+        r12 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='All-or-Nothing', value='12', variable=self.selectedOption3)
+        r12.grid(row=18, column=0, pady=4)
+
+        r13 = tk.Radiobutton(self.scrollyFrame.scrollable_frame, 
+            text='Soft-5', value='13', variable=self.selectedOption3)
+        r13.grid(row=19, column=0, pady=4)
+
+        #save and move on button
+        selectButton = tk.Button(self.scrollyFrame.scrollable_frame, 
+            text="Let's Go!", command=self.startGame)
+        selectButton.grid(row=21, column=0, pady=4)
+
+    def startGame(self):
+        """this function will handle the button 
+        click to transition to Window2"""
+        self.parent.showWindow2()
+
+
+#GUI for window 2 ****************************
+
+
+class Window2(tk.Frame):
+    """this class contains all the components and operations of
+        window 2. It will populate all labels and drop down menus.
+        Then it will then handle the user selection of postion, then 
+        populate the second dropdown menu with player names. This keeps
+        a running list of selected players to not show them again. This
+        will prevent duplicate errors"""
+    def __init__(self, parent):
+        """constuctor calls to parent = windowSwitch()"""
+        tk.Frame.__init__(self, parent)
+        self.parent = parent
+
+        #establish our scrollable area
+        #everything will be set to scrollyFrame
+        self.scrollyFrame = scroller(self)
+        self.scrollyFrame.pack(side="left", fill="both", expand=True)
+
+        #welcome text and placement
+        welcomeLabel = tk.Label(self.scrollyFrame.scrollable_frame,
+            text="Game Time!\nPick the position, then the player, then hit 'set'")
+        welcomeLabel.grid(row=0, column=0, columnspan=5, pady=4)
+
+        #headers for the four columns
+        headers = ["Pick #", "Team", "Position", "Player", "Action"]
+        for indx, text in enumerate(headers):
+            header = tk.Label(self.scrollyFrame.scrollable_frame, 
+                text=text, font=('Arial', 12, 'bold'))
+            header.grid(row=1, column=indx, padx=4, pady=4)
+
+        #initialize the set of selected players
+        self.selectedPlayers = set()
+
+        #initialize the list to track set lines
+        self.isSetList = [False] * 32
+
+        #itialize all empty lists to store the dropdown menus and variables
+        self.drop1List = []
+        self.drop2List = []
+        self.clickedPositionList = []
+        self.clickedPlayerList = []
+        self.setButtonList = []
+
+        #call the function that will build each line
+        self.makeLines()
+
+
+    def makeLines(self):
+        """this function will build each line displayed in
+            window 2. It uses nested functions to populate
+            the drop down menus."""
+        def updatePlayerOptions(indx, selectedPosition):
+            """nested function to handle the available players.
+                It controls the players available and
+                displays them in the second dropdown menu"""
+            selectedPosition = selectedPosition.strip()
+            menu = self.drop2List[indx]['menu']
+            currentSelection = self.clickedPlayerList[indx].get()
+            menu.delete(0, 'end')
+
+            if selectedPosition in playersByPosition:
+                #get available players - excluding those already picked
+                availablePlayers = [
+                    player for player in playersByPosition[selectedPosition]
+                    if player not in self.selectedPlayers]
+                if availablePlayers:
+                    for player in availablePlayers:
+                        menu.add_command(label=player,
+                            command=tk._setit(self.clickedPlayerList[indx], player))
+                    #check if current selection is still valid
+                    if currentSelection in availablePlayers:
+                        self.clickedPlayerList[indx].set(currentSelection)
+                    else:
+                        #set to auto populate the first available player
+                        self.clickedPlayerList[indx].set(availablePlayers[0])
+                else:
+                    #in case there are no available players for this position
+                    self.clickedPlayerList[indx].set("No players available")
+                    menu.add_command(
+                        label="No players available",
+                        command=tk._setit(self.clickedPlayerList[indx], 
+                            "No players available"))
+            else:
+                self.clickedPlayerList[indx].set(" ")
+                menu.add_command(label=" ",
+                    command=tk._setit(self.clickedPlayerList[indx], " "))
+
+        def setPlayer(indx):
+            """nested function to handle the state of the drop down menus.
+                This will populate all menus and buttons as initially enabled.
+                When the set button is pushed, it will "lock in" the player,
+                add them to the set-list and remove them from the available
+                choices to display, and disable the drop down menus. 
+                This is also will throw a pop-up box if a duplicate error occurs. 
+                It looked fun, so I wanted to include it."""
+            selectedPlayer = self.clickedPlayerList[indx].get()
+            selectedPosition = self.clickedPositionList[indx].get().strip()
+            if selectedPlayer and selectedPlayer not in [" ", "No players available"]:
+                if selectedPlayer in self.selectedPlayers:
+                    updatePlayerOptions(indx, selectedPosition)
+                    return
+                #add the selected player to the set of players
+                self.selectedPlayers.add(selectedPlayer)
+                #disable the dropdowns to prevent changes
+                self.drop1List[indx].config(state='disabled')
+                self.drop2List[indx].config(state='disabled')
+                self.setButtonList[indx].config(state='disabled')
+                #mark the line as set
+                self.isSetList[indx] = True
+                #update other dropdown menus if they have an auto display
+                for i in range(len(self.clickedPositionList)):
+                    if i != indx and not self.isSetList[i]:
+                        selectedPositionForLine = self.clickedPositionList[i].get().strip()
+                        if selectedPositionForLine in playersByPosition:
+                            updatePlayerOptions(i, selectedPositionForLine)
+            else:
+                messagebox.showwarning(
+                    "Error",
+                    "Please select a valid player before setting."
+                )
+
+        #this kicks back out to the makeLines() fn
+        #it loops through to use all the stuff we built
+        for i in range(32):
+            #the +2 accounts for the header space
+            row_index = i + 2
+
+            #label draft pick numbers
+            pickNumberLabel = tk.Label(self.scrollyFrame.scrollable_frame, text=i + 1)
+            pickNumberLabel.grid(row=row_index, column=0, pady=4)
+
+            #label team names 
+            teamLabel = tk.Label(self.scrollyFrame.scrollable_frame, text=teamsList[i])
+            teamLabel.grid(row=row_index, column=1, padx=4, pady=4)
+
+            #dropdown menu positions
+            positionVar = tk.StringVar()
+            #this new variable is needed to not write over itself
+            positionVar.set(positionList[0])
+
+            drop1 = tk.OptionMenu(self.scrollyFrame.scrollable_frame, positionVar,
+                *positionList, command=lambda value, indx=i, 
+                posVar=positionVar: updatePlayerOptions(indx, posVar.get()))
+            drop1.grid(row=row_index, column=2, padx=4, pady=4)
+
+            self.clickedPositionList.append(positionVar)
+            self.drop1List.append(drop1)
+
+            #dropdown menu player names
+            playerVar = tk.StringVar()
+            playerVar.set(" ")
+
+            drop2 = tk.OptionMenu(self.scrollyFrame.scrollable_frame, playerVar, "")
+            drop2.grid(row=row_index, column=3, padx=4, pady=4)
+
+            self.clickedPlayerList.append(playerVar)
+            self.drop2List.append(drop2)
+
+            #set button
+            setButton = tk.Button(self.scrollyFrame.scrollable_frame,
+                text="Set", command=lambda indx=i: setPlayer(indx))
+            setButton.grid(row=row_index, column=4, padx=4, pady=4)
+            self.setButtonList.append(setButton)
+
+
+
+
+#run the application
+windowView = windowSwitch()
+windowView.mainloop()
