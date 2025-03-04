@@ -12,7 +12,9 @@ Short Desc:   This program will show two screens.
 
 #import necessary tools
 import tkinter as tk
+from tkinter import PhotoImage
 from tkinter import messagebox
+import csv      #used for saving user profiles
 
 
 #data structures
@@ -99,8 +101,8 @@ class windowSwitch(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("2025 NFL Draft Pick'ems")
         
-        self.window1 = Window1(self)
-        self.window2 = Window2(self)
+        self.window1 = Window1(self)    #our first window - game options
+        self.window2 = Window2(self)    #our second window - game play
         self.currentWindow = None
         self.showWindow(self.window1)
     
@@ -176,6 +178,12 @@ class Window1(tk.Frame):
         self.selectedOption1 = tk.StringVar()
         self.selectedOption2 = tk.StringVar()
         self.selectedOption3 = tk.StringVar()
+
+        #place our welcome image
+        image1 = PhotoImage(file="FFB_Snoo2.png")
+        imageLabel1 = tk.Label(self)
+        imageLabel1.image = image1
+        imageLabel1.pack()
 
         #labels and buttons with grid placement
         welcomeLabel = tk.Label(
@@ -282,6 +290,12 @@ class Window2(tk.Frame):
         self.scrollyFrame = scroller(self)
         self.scrollyFrame.pack(side="left", fill="both", expand=True)
 
+        #add another image
+        image2 = PhotoImage(file="FFB_Snoo1.png")
+        imageLabel2 = tk.Label(self)
+        imageLabel2.image = image2
+        imageLabel2.pack()
+
         #welcome text and placement
         welcomeLabel = tk.Label(self.scrollyFrame.scrollable_frame,
             text="Game Time!\nPick the position, then the player, then hit 'set'")
@@ -309,6 +323,11 @@ class Window2(tk.Frame):
 
         #call the function that will build each line
         self.makeLines()
+
+        #submit button to save user selections
+        submitButton = tk.Button(self.scrollyFrame.scrollable_frame, 
+            text="Submit", command=self.saveList)
+        submitButton.grid(row=34, column=0, pady=4)
 
 
     def makeLines(self):
@@ -428,8 +447,28 @@ class Window2(tk.Frame):
             setButton.grid(row=row_index, column=4, padx=4, pady=4)
             self.setButtonList.append(setButton)
 
-
-
+    def saveList(self):
+        """saves user selections to a CSV file.
+            this will be used for scoring later."""
+        with open("userChoices.csv", "w", newline="") as f:
+            writer = csv.writer(f)
+            #write the headers for tracking
+            writer.writerow(["Pick #", "Team", "Position", "Player"]) 
+            #write the rows
+            for i in range(32):
+                writer.writerow([i + 1,  #pick number
+                    teamsList[i],  #team name
+                    self.clickedPositionList[i].get(),  #selected position
+                    self.clickedPlayerList[i].get()])   #selected player.
+        #a confirmation message
+        if messagebox.askyesno("Confirm your choices.", "Are you happy with your piccks?"):
+            messagebox.showinfo("Success", "Your choices have been submitted!")
+            #forced exit after a successful save
+            self.parent.destroy()
+        else:
+            #just exit the window and go back to the window
+            pass
+        
 
 #run the application
 windowView = windowSwitch()
